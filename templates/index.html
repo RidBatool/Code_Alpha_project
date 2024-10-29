@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="main_part">
+        <h1>Welcome to the Chatbot</h1>
+        <div id="response"></div>
+        <br>
+        <div class="reply">
+            <form id="chat-form">
+                <input type="text" id="message" placeholder="Type a message..." autocomplete="off">
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <div class="box">
+        <div class="bubbles">
+            <span style="--i:11"></span>
+            <span style="--i:2"></span>
+            <span style="--i:16"></span>
+            <span style="--i:23"></span>
+            <span style="--i:4"></span>
+            <span style="--i:9"></span>
+            <span style="--i:5"></span>
+            <span style="--i:8"></span>
+            <span style="--i:12"></span>
+            <span style="--i:15"></span>
+            <span style="--i:10"></span>
+            <span style="--i:3"></span>
+            <span style="--i:17"></span>
+            <span style="--i:13"></span>
+            <span style="--i:1"></span>
+            <span style="--i:14"></span>
+            <span style="--i:19"></span>
+            <span style="--i:20"></span>
+            <span style="--i:1"></span>
+            <span style="--i:2"></span>
+            <span style="--i:17"></span>
+            <span style="--i:16"></span>
+            <span style="--i:13"></span>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('chat-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const message = document.getElementById('message').value;
+            fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerText += '\n' + 'You: ' + message + '\n' + 'Bot: ' + data.response;
+                document.getElementById('message').value = '';
+            });
+        });
+    </script>
+</body>
+</html>
